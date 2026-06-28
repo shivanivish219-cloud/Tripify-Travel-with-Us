@@ -1,0 +1,630 @@
+/* ============================================================
+   TRIPIFY — GLOBAL STYLES
+   Ported 1:1 from the original vanilla CSS so the look stays
+   identical after the React migration.
+   ============================================================ */
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  position: relative;
+}
+
+img {
+  width: 200px;
+  height: 100px;
+  object-fit: cover;
+  padding-top: 5px;
+}
+
+h1 {
+  margin: 10px;
+  font-size: 48px;
+  color: #103152;
+  padding: 25px 15px;
+}
+
+h3 {
+  margin-top: 0;
+  color: #8394b0;
+}
+
+/* ── Top bar ─────────────────────────────────────── */
+.main-continer {
+  display: flex;
+  justify-content: flex-end;
+  background-color: #f8f8f8;
+  padding: 10px 20px;
+  gap: 20px;
+  font-size: 14px;
+}
+
+.head {
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+  align-items: center;
+}
+
+.log-link {
+  text-decoration: none;
+  color: #ff0404;
+  cursor: pointer;
+}
+
+/* ── Nav ─────────────────────────────────────────── */
+nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  background-color: #103152;
+  padding: 15px 20px;
+  color: white;
+  height: 70px;
+}
+
+.title {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: -5px;
+  align-items: center;
+  text-decoration: none;
+}
+
+.title img {
+  height: 70px;
+  width: 80px;
+  padding-top: 0;
+}
+
+.title-name {
+  font-size: 30px;
+  font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+  padding: 20px 10px;
+  margin-bottom: 4px;
+  color: white;
+}
+
+.search {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  position: relative;
+}
+
+.search input {
+  width: 420px;
+  padding: 14px;
+  border-radius: 7px;
+  border: none;
+}
+
+.nav-links {
+  display: flex;
+  gap: 30px;
+  font-size: 16px;
+}
+
+.nav-items {
+  position: relative;
+  padding: 10px 15px;
+  cursor: pointer;
+}
+
+.dropdown {
+  display: none;
+  position: absolute;
+  top: 40px;
+  left: 0;
+  background-color: white;
+  color: black;
+  min-width: 150px;
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  flex-direction: column;
+}
+
+.dropdown a {
+  padding: 10px 16px;
+  text-decoration: none;
+  color: #333;
+  font-size: 14px;
+  display: block;
+}
+
+.dropdown a:hover {
+  background: #f5f7fa;
+}
+
+.nav-items:hover .dropdown {
+  display: flex;
+}
+
+/* ── Banner ──────────────────────────────────────── */
+.middle-box {
+  position: relative;
+  height: 440px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: black;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.8);
+  font-family:
+    system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  font-weight: bold;
+  font-size: 25px;
+}
+
+.banner-slider {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+}
+
+.slides {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  animation: slideBanner 20s infinite;
+}
+
+.slides img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  flex-shrink: 0;
+  opacity: 0.6;
+  padding-top: 0;
+}
+
+@keyframes slideBanner {
+  0% { transform: translateX(0%); }
+  20% { transform: translateX(0%); }
+  25% { transform: translateX(-100%); }
+  45% { transform: translateX(-100%); }
+  50% { transform: translateX(-200%); }
+  70% { transform: translateX(-200%); }
+  75% { transform: translateX(-300%); }
+  95% { transform: translateX(-300%); }
+  100% { transform: translateX(-400%); }
+}
+
+/* ── Destination cards ──────────────────────────── */
+.img-box {
+  display: flex;
+  overflow-x: auto;
+  gap: 20px;
+  padding: 20px;
+  scroll-behavior: smooth;
+}
+
+.img-box::-webkit-scrollbar {
+  display: none;
+}
+
+.text {
+  min-width: 250px;
+  flex-shrink: 0;
+  position: relative;
+  font-weight: bold;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.text img {
+  width: 230px;
+  height: 300px;
+  object-fit: cover;
+  border-radius: 12px;
+  transition: transform 0.3s;
+  padding-top: 0;
+}
+
+.text:hover img {
+  transform: scale(1.05);
+}
+
+.overlay {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  color: white;
+  font-weight: bold;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.8);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.off {
+  color: #f17500;
+}
+
+/* ── Group offer banner ─────────────────────────── */
+.offer {
+  position: relative;
+  background: white;
+  border-radius: 12px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-wrap: wrap;
+  width: 90%;
+  margin: 0 auto 30px;
+}
+
+.offer::before {
+  content: "";
+  position: absolute;
+  inset: -3px;
+  border-radius: 12px;
+  background: linear-gradient(45deg, red, orange, blue, green);
+  z-index: -1;
+}
+
+.text-2 {
+  max-width: 500px;
+  padding: 15px;
+}
+
+.call {
+  padding: 10px;
+  background: #f85311;
+  border: none;
+  border-radius: 8px;
+  width: 100px;
+  height: 40px;
+  color: white;
+  font-size: 17px;
+  cursor: pointer;
+}
+
+.call:hover {
+  background: #f37022;
+}
+
+/* ── Packages by interest ───────────────────────── */
+.nav-list2 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 90px;
+  padding: 20px;
+  list-style-type: none;
+  font-weight: bold;
+  font-size: 20px;
+  flex-wrap: wrap;
+}
+
+.nav-list2 li {
+  cursor: pointer;
+  padding: 10px 15px;
+  border-radius: 8px;
+  background: #8394b0;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.nav-list2 li:hover {
+  background: #bfc7e6;
+}
+
+.nav-list2 a {
+  text-decoration: none;
+  color: black;
+}
+
+/* ── Footer ──────────────────────────────────────── */
+footer {
+  background: #0d1b2a;
+  color: white;
+  padding: 30px 20px;
+}
+
+.footer-container {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.footer-box {
+  max-width: 480px;
+}
+
+.social-icons a {
+  color: white;
+  font-size: 20px;
+  margin-right: 15px;
+  cursor: pointer;
+}
+
+.footer-bottom {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 14px;
+  color: #8394b0;
+}
+
+/* ============================================================
+   MODALS, FORMS, TOAST, SEARCH, AUTH NAV
+   (ported from the inline <style> block in the original HTML)
+   ============================================================ */
+
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(4px);
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-overlay.active {
+  display: flex;
+}
+
+.modal {
+  background: #fff;
+  border-radius: 16px;
+  padding: 36px 32px;
+  width: 100%;
+  max-width: 440px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.2);
+  position: relative;
+  animation: slideUp 0.3s ease;
+  max-height: 88vh;
+  overflow-y: auto;
+}
+
+@keyframes slideUp {
+  from { transform: translateY(30px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.modal h2 {
+  margin: 0 0 20px;
+  font-size: 1.5rem;
+  color: #1e293b;
+}
+
+.modal .close-btn {
+  position: absolute;
+  top: 14px;
+  right: 18px;
+  font-size: 1.4rem;
+  cursor: pointer;
+  color: #94a3b8;
+  background: none;
+  border: none;
+}
+
+.modal-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+.modal-tab {
+  flex: 1;
+  padding: 9px;
+  border: 2px solid #e2e8f0;
+  border-radius: 8px;
+  background: none;
+  cursor: pointer;
+  font-weight: 600;
+  color: #64748b;
+  transition: all 0.2s;
+}
+
+.modal-tab.active {
+  border-color: #2563eb;
+  color: #2563eb;
+  background: #eff6ff;
+}
+
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #475569;
+  margin-bottom: 6px;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.2s;
+  box-sizing: border-box;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  border-color: #2563eb;
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 90px;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.btn-primary {
+  width: 100%;
+  padding: 12px;
+  background: #2563eb;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-primary:hover {
+  background: #1d4ed8;
+}
+
+.btn-primary:disabled {
+  background: #93c5fd;
+  cursor: not-allowed;
+}
+
+#toast {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  padding: 14px 22px;
+  border-radius: 10px;
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.9rem;
+  z-index: 9999;
+  transform: translateY(80px);
+  opacity: 0;
+  transition: all 0.35s ease;
+  max-width: 320px;
+}
+
+#toast.show {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+#toast.success {
+  background: #16a34a;
+}
+
+#toast.error {
+  background: #dc2626;
+}
+
+.search-wrapper {
+  position: relative;
+}
+
+#search-results {
+  display: none;
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  z-index: 500;
+  max-height: 320px;
+  overflow-y: auto;
+}
+
+#search-results.show {
+  display: block;
+}
+
+.search-result-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.search-result-item:hover {
+  background: #f8fafc;
+}
+
+.search-result-item .dest-name {
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.search-result-item .dest-meta {
+  font-size: 0.8rem;
+  color: #64748b;
+}
+
+#auth-nav {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+#user-greeting {
+  font-weight: 600;
+  color: #1e293b;
+  font-size: 0.9rem;
+}
+
+.logout-btn {
+  padding: 6px 14px;
+  background: #fee2e2;
+  color: #dc2626;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
+/* ── Weather widget (new) ───────────────────────── */
+.weather-strip {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  color: #334155;
+}
+
+.weather-strip .wx-icon {
+  font-size: 16px;
+}
+
+/* ── Responsive tweaks ──────────────────────────── */
+@media (max-width: 900px) {
+  nav {
+    flex-wrap: wrap;
+    height: auto;
+    gap: 10px;
+  }
+  .search input {
+    width: 240px;
+  }
+  .nav-links {
+    gap: 14px;
+    font-size: 14px;
+  }
+  .nav-list2 {
+    gap: 20px;
+  }
+}
