@@ -3,8 +3,8 @@ import { createRoot } from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import "./assets/styles/global.css";
 import App from "./App.jsx";
-import { AuthProvider } from "./context/AuthContext.jsx";
-import { ToastProvider } from "./context/ToastContext.jsx";
+import { AuthProvider } from "./contexts/AuthContext.jsx";
+import { ToastProvider } from "./contexts/ToastContext.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
@@ -15,5 +15,5 @@ createRoot(document.getElementById("root")).render(
         </ToastProvider>
       </AuthProvider>
     </BrowserRouter>
-  </StrictMode>
+  </StrictMode>,
 );

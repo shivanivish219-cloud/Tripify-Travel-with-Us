@@ -1,0 +1,513 @@
+/* =========================================================================
+   Admin Dashboard styles
+   All colors are CSS variables — once you share your real Tripify brand
+   colors, only the :root block below needs to change, nothing else.
+   ========================================================================= */
+
+.db-layout {
+  --db-bg: #f5f7fa;
+  --db-panel-bg: #ffffff;
+  --db-border: #e3e8f0;
+  --db-text: #16253d;
+  --db-muted: #7c8aa0;
+  --db-accent: #f26522;   /* Tripify orange — matches your "Call us" / CTA buttons */
+  --db-accent-2: #4a7fb5; /* softer blue, pulled from your navy navbar for chart contrast */
+  --db-sidebar-bg: #0f2a4d; /* matches your site's navbar navy */
+  --db-success: #1fae6e;
+  --db-warning: #e8a13a;
+  --db-danger: #e5484d;
+
+  display: flex;
+  min-height: 100vh;
+  background: var(--db-bg);
+  color: var(--db-text);
+  font-family: "Inter", "Segoe UI", sans-serif;
+}
+
+.db-layout * {
+  box-sizing: border-box;
+}
+
+/* ---- Sidebar ---------------------------------------------------------- */
+
+.db-sidebar {
+  width: 230px;
+  flex-shrink: 0;
+  background: var(--db-sidebar-bg);
+  color: #e9ebf3;
+  padding: 22px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+}
+
+.db-sidebar-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 700;
+  font-size: 17px;
+  padding: 0 8px;
+}
+
+.db-sidebar-logo svg {
+  color: var(--db-accent);
+}
+
+.db-sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.db-sidebar-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 12px;
+  border-radius: 10px;
+  color: #b7bdd1;
+  text-decoration: none;
+  font-size: 14px;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.db-sidebar-link:hover {
+  background: rgba(255, 255, 255, 0.06);
+  color: #fff;
+}
+
+.db-sidebar-link-active {
+  background: var(--db-accent);
+  color: #fff;
+}
+
+.db-sidebar-icon {
+  font-size: 18px;
+}
+
+/* ---- Main column -------------------------------------------------------- */
+
+.db-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.db-navbar {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 18px 28px;
+  background: var(--db-panel-bg);
+  border-bottom: 1px solid var(--db-border);
+}
+
+.db-navbar-title {
+  font-size: 20px;
+  font-weight: 700;
+  margin: 0;
+  white-space: nowrap;
+}
+
+.db-navbar-search {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--db-bg);
+  border: 1px solid var(--db-border);
+  border-radius: 10px;
+  padding: 9px 14px;
+  color: var(--db-muted);
+  max-width: 420px;
+}
+
+.db-navbar-search input {
+  border: none;
+  background: transparent;
+  outline: none;
+  width: 100%;
+  font-size: 14px;
+  color: var(--db-text);
+}
+
+.db-navbar-right {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-left: auto;
+}
+
+.db-range-select {
+  border: 1px solid var(--db-border);
+  border-radius: 8px;
+  padding: 8px 10px;
+  font-size: 13px;
+  background: var(--db-panel-bg);
+  color: var(--db-text);
+}
+
+.db-icon-btn {
+  position: relative;
+  border: 1px solid var(--db-border);
+  background: var(--db-panel-bg);
+  border-radius: 50%;
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  color: var(--db-text);
+  cursor: pointer;
+}
+
+.db-notif-dot {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--db-accent);
+}
+
+.db-admin-chip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.db-admin-avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--db-accent);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+}
+
+/* ---- Content area -------------------------------------------------------- */
+
+.db-content {
+  padding: 24px 28px 60px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.db-error-banner {
+  background: #fdeceb;
+  border: 1px solid #f6c4c1;
+  color: var(--db-danger);
+  padding: 12px 16px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 14px;
+}
+
+.db-error-banner button {
+  border: none;
+  background: var(--db-danger);
+  color: #fff;
+  padding: 6px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+/* ---- KPI cards -------------------------------------------------------- */
+
+.db-kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.db-kpi-card {
+  background: var(--db-panel-bg);
+  border: 1px solid var(--db-border);
+  border-radius: 14px;
+  padding: 18px;
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+}
+
+.db-kpi-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
+  background: rgba(242, 101, 34, 0.12);
+  color: var(--db-accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.db-kpi-body {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.db-kpi-label {
+  font-size: 12px;
+  color: var(--db-muted);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.db-kpi-value {
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.db-kpi-change {
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.db-kpi-change.positive {
+  color: var(--db-success);
+}
+
+.db-kpi-change.negative {
+  color: var(--db-danger);
+}
+
+.db-kpi-skeleton {
+  display: block;
+  width: 80px;
+  height: 22px;
+  border-radius: 6px;
+  background: var(--db-border);
+  animation: db-pulse 1.2s ease-in-out infinite;
+}
+
+/* ---- Panels / charts ---------------------------------------------------- */
+
+.db-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.db-panel {
+  background: var(--db-panel-bg);
+  border: 1px solid var(--db-border);
+  border-radius: 14px;
+  padding: 18px;
+}
+
+.db-panel-wide {
+  width: 100%;
+}
+
+.db-panel-header {
+  margin-bottom: 12px;
+}
+
+.db-panel-header h2 {
+  font-size: 15px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.db-chart-skeleton,
+.db-list-skeleton {
+  height: 220px;
+  border-radius: 10px;
+  background: var(--db-border);
+  animation: db-pulse 1.2s ease-in-out infinite;
+}
+
+/* ---- Popular packages -------------------------------------------------- */
+
+.db-package-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.db-package-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.db-package-rank {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--db-bg);
+  color: var(--db-muted);
+  font-size: 12px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.db-package-info {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.db-package-name {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.db-package-location {
+  font-size: 12px;
+  color: var(--db-muted);
+}
+
+.db-package-count {
+  font-size: 12px;
+  color: var(--db-accent-2);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* ---- Notifications -------------------------------------------------------- */
+
+.db-notification-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.db-notification-item {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: var(--db-bg);
+  font-size: 13px;
+  border-left: 3px solid var(--db-muted);
+}
+
+.db-notif-info {
+  border-left-color: var(--db-accent-2);
+}
+
+.db-notif-warning {
+  border-left-color: var(--db-warning);
+}
+
+.db-notif-success {
+  border-left-color: var(--db-success);
+}
+
+.db-notif-time {
+  color: var(--db-muted);
+  white-space: nowrap;
+  font-size: 12px;
+}
+
+.db-empty-text {
+  color: var(--db-muted);
+  font-size: 13px;
+  margin: 0;
+}
+
+/* ---- Table -------------------------------------------------------- */
+
+.db-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.db-table th {
+  text-align: left;
+  color: var(--db-muted);
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 11px;
+  letter-spacing: 0.03em;
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--db-border);
+}
+
+.db-table td {
+  padding: 12px 10px;
+  border-bottom: 1px solid var(--db-border);
+}
+
+.db-status-pill {
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.db-status-confirmed {
+  background: rgba(31, 174, 110, 0.12);
+  color: var(--db-success);
+}
+
+.db-status-pending {
+  background: rgba(232, 161, 58, 0.14);
+  color: var(--db-warning);
+}
+
+.db-status-cancelled {
+  background: rgba(229, 72, 77, 0.12);
+  color: var(--db-danger);
+}
+
+/* ---- Animations & responsive -------------------------------------------------------- */
+
+@keyframes db-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+@media (max-width: 1080px) {
+  .db-kpi-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .db-grid-2 {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 720px) {
+  .db-sidebar {
+    display: none; /* swap for a slide-out drawer if you need mobile support */
+  }
+
+  .db-kpi-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .db-navbar-search {
+    display: none;
+  }
+}

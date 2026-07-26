@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../contexts/AuthContext";
 import { fetchDestinations } from "../api/destinationsApi";
 import { fallbackDestinations } from "../assets/fallbackDestinations";
 
@@ -30,7 +30,7 @@ export default function Navbar({ onOpenAuth, onSelectDestination }) {
         // search bar still feels alive during development.
         const q = query.toLowerCase();
         setResults(
-          fallbackDestinations.filter((d) => d.name.toLowerCase().includes(q))
+          fallbackDestinations.filter((d) => d.name.toLowerCase().includes(q)),
         );
       }
       setShowResults(true);
@@ -55,7 +55,7 @@ export default function Navbar({ onOpenAuth, onSelectDestination }) {
       setShowResults(false);
       onSelectDestination?.(name);
     },
-    [onSelectDestination]
+    [onSelectDestination],
   );
 
   return (
@@ -68,13 +68,22 @@ export default function Navbar({ onOpenAuth, onSelectDestination }) {
           <div id="auth-nav">
             {isAuthenticated ? (
               <>
-                <span id="user-greeting">👋 Hi, {user?.name?.split(" ")[0]}</span>
+                <span id="user-greeting">
+                  👋 Hi, {user?.name?.split(" ")[0]}
+                </span>
                 <button className="logout-btn" onClick={logout}>
                   Logout
                 </button>
               </>
             ) : (
-              <a href="#" className="log-link" onClick={(e) => { e.preventDefault(); onOpenAuth(); }}>
+              <a
+                href="#"
+                className="log-link"
+                onClick={(e) => {
+                  e.preventDefault();
+                  onOpenAuth();
+                }}
+              >
                 Log in / Sign up
               </a>
             )}
@@ -85,7 +94,11 @@ export default function Navbar({ onOpenAuth, onSelectDestination }) {
       {/* ── Nav ─────────────────────────────────────── */}
       <nav>
         <Link to="/" className="title">
-          <img src="/logo.png" alt="Travel Logo" onError={(e) => (e.target.style.display = "none")} />
+          <img
+            src="/logo.png"
+            alt="Travel Logo"
+            onError={(e) => (e.target.style.display = "none")}
+          />
           <span className="title-name">Tripify</span>
         </Link>
 
@@ -125,14 +138,18 @@ export default function Navbar({ onOpenAuth, onSelectDestination }) {
 
         <div className="nav-links">
           <div className="nav-items">
-            <span>Tours <i className="fa-solid fa-chevron-down"></i></span>
+            <span>
+              Tours <i className="fa-solid fa-chevron-down"></i>
+            </span>
             <div className="dropdown">
               <a href="#">Domestic tours</a>
               <a href="#">International tours</a>
             </div>
           </div>
           <div className="nav-items">
-            <span>Services <i className="fa-solid fa-chevron-down"></i></span>
+            <span>
+              Services <i className="fa-solid fa-chevron-down"></i>
+            </span>
             <div className="dropdown">
               <a href="#">Travel booking</a>
               <a href="#">Accommodations</a>
@@ -144,7 +161,9 @@ export default function Navbar({ onOpenAuth, onSelectDestination }) {
             </div>
           </div>
           <div className="nav-items">
-            <span>Blogs <i className="fa-solid fa-chevron-down"></i></span>
+            <span>
+              Blogs <i className="fa-solid fa-chevron-down"></i>
+            </span>
             <div className="dropdown">
               <a href="#">Travel Tips</a>
               <a href="#">Top Destinations</a>
@@ -155,7 +174,9 @@ export default function Navbar({ onOpenAuth, onSelectDestination }) {
             </div>
           </div>
           <div className="nav-items">
-            <span>Career <i className="fa-solid fa-chevron-down"></i></span>
+            <span>
+              Career <i className="fa-solid fa-chevron-down"></i>
+            </span>
             <div className="dropdown">
               <a href="#">Current Openings</a>
               <a href="#">Travel Consultant</a>
@@ -168,6 +189,14 @@ export default function Navbar({ onOpenAuth, onSelectDestination }) {
           {isAuthenticated && (
             <div className="nav-items" onClick={() => navigate("/my-bookings")}>
               <span>My Bookings</span>
+            </div>
+          )}
+          {isAuthenticated && user?.role === "navigator" && (
+            <div
+              className="nav-items"
+              onClick={() => navigate("/admin/dashboard")}
+            >
+              <span>Dashboard</span>
             </div>
           )}
         </div>

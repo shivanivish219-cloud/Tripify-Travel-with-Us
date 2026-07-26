@@ -1,5 +1,9 @@
 import { useState, useEffect } from "react";
-import { fetchWeatherByCoords, fetchWeatherByCity, weatherEmoji } from "../api/weatherApi";
+import {
+  fetchWeatherByCoords,
+  fetchWeatherByCity,
+  weatherEmoji,
+} from "../api/weatherApi";
 
 export default function WeatherStrip() {
   const [weather, setWeather] = useState(null);
@@ -15,7 +19,7 @@ export default function WeatherStrip() {
               try {
                 const data = await fetchWeatherByCoords(
                   pos.coords.latitude,
-                  pos.coords.longitude
+                  pos.coords.longitude,
                 );
                 if (!cancelled) setWeather(data);
               } catch {
@@ -31,7 +35,7 @@ export default function WeatherStrip() {
                 /* silently hide widget */
               }
             },
-            { timeout: 5000 }
+            { timeout: 5000 },
           );
         } else {
           const data = await fetchWeatherByCity("Mumbai");

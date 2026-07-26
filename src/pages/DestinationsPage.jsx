@@ -46,7 +46,9 @@ export default function DestinationsPage({ onCardClick }) {
         if (!cancelled) {
           // Filter the local fallback set the same way the backend would.
           const filtered = fallbackDestinations.filter(
-            (d) => (!category || d.category === category) && (!type || d.type === type)
+            (d) =>
+              (!category || d.category === category) &&
+              (!type || d.type === type),
           );
           setDestinations(filtered);
           setUsedFallback(true);
@@ -71,15 +73,29 @@ export default function DestinationsPage({ onCardClick }) {
     <div style={{ maxWidth: 1100, margin: "0 auto", padding: "20px 16px" }}>
       <h1 style={{ padding: "10px 0" }}>Explore Destinations</h1>
 
-      <div style={{ display: "flex", gap: 16, marginBottom: 24, flexWrap: "wrap" }}>
-        <select value={type} onChange={(e) => updateFilter("type", e.target.value)} style={selectStyle}>
+      <div
+        style={{ display: "flex", gap: 16, marginBottom: 24, flexWrap: "wrap" }}
+      >
+        <select
+          value={type}
+          onChange={(e) => updateFilter("type", e.target.value)}
+          style={selectStyle}
+        >
           {typeOptions.map((o) => (
-            <option key={o.value} value={o.value}>{o.label}</option>
+            <option key={o.value} value={o.value}>
+              {o.label}
+            </option>
           ))}
         </select>
-        <select value={category} onChange={(e) => updateFilter("category", e.target.value)} style={selectStyle}>
+        <select
+          value={category}
+          onChange={(e) => updateFilter("category", e.target.value)}
+          style={selectStyle}
+        >
           {categoryOptions.map((o) => (
-            <option key={o.value} value={o.value}>{o.label}</option>
+            <option key={o.value} value={o.value}>
+              {o.label}
+            </option>
           ))}
         </select>
       </div>
@@ -93,7 +109,9 @@ export default function DestinationsPage({ onCardClick }) {
       )}
 
       {!loading && destinations.length === 0 && (
-        <p style={{ color: "#64748b" }}>No destinations match these filters yet.</p>
+        <p style={{ color: "#64748b" }}>
+          No destinations match these filters yet.
+        </p>
       )}
 
       <div
@@ -104,7 +122,11 @@ export default function DestinationsPage({ onCardClick }) {
         }}
       >
         {destinations.map((d) => (
-          <DestinationCard key={d.slug || d.name} destination={d} onClick={onCardClick} />
+          <DestinationCard
+            key={d.slug || d.name}
+            destination={d}
+            onClick={onCardClick}
+          />
         ))}
       </div>
     </div>

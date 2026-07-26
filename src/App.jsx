@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Routes, Route, useNavigate } from "react-router-dom";
+import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import AuthModal from "./components/AuthModal";
@@ -10,9 +10,15 @@ import HomePage from "./pages/HomePage";
 import PaymentPage from "./pages/PaymentPage";
 import MyBookingsPage from "./pages/MyBookingsPage";
 import DestinationsPage from "./pages/DestinationsPage";
+import AdminDashboard from "./pages/AdminDashboard/AdminDashboard";
 
 export default function App() {
   const navigate = useNavigate();
+  const location = useLocation();
+
+  // Dashboard has its own sidebar/navbar layout, so hide the site's
+  // public Navbar + Footer whenever we're inside /admin/*
+  const isAdminRoute = location.pathname.startsWith("/admin");
 
   const [authOpen, setAuthOpen] = useState(false);
   const [bookingOpen, setBookingOpen] = useState(false);
@@ -31,15 +37,38 @@ export default function App() {
 
   return (
     <>
-      <Navbar onOpenAuth={() => setAuthOpen(true)} onSelectDestination={openBookingFor} />
+      {!isAdminRoute && (
+        <Navbar
+          onOpenAuth={() => setAuthOpen(true)}
+          onSelectDestination={openBookingFor}
+        />
+      )}
 
       <Routes>
         <Route
           path="/"
-          element={<HomePage onCardClick={openBookingFor} onOpenContact={() => setContactOpen(true)} />}
+          element={
+            <HomePage
+              onCardClick={openBookingFor}
+              onOpenContact={() => setContactOpen(true)}
+            />
+          }
         />
-        <Route path="/destinations" element={<DestinationsPage onCardClick={(d) => openBookingFor(d.name)} />} />
+        <Route
+          path="/destinations"
+          element={
+            <DestinationsPage onCardClick={(d) => openBookingFor(d.name)} />
+          }
+        />
         <Route path="/payment" element={<PaymentPage />} />
+        <Route
+          path="/admin/dashboard/*"
+          element={
+            <ProtectedRoute>
+              <AdminDashboard />
+            </ProtectedRoute>
+          }
+        />
         <Route
           path="/my-bookings"
           element={
@@ -50,7 +79,7 @@ export default function App() {
         />
       </Routes>
 
-      <Footer />
+      {!isAdminRoute && <Footer />}
 
       <AuthModal isOpen={authOpen} onClose={() => setAuthOpen(false)} />
       <BookingModal
@@ -59,7 +88,10 @@ export default function App() {
         prefillDestination={prefillDestination}
         onProceedToPay={handleProceedToPay}
       />
-      <ContactModal isOpen={contactOpen} onClose={() => setContactOpen(false)} />
+      <ContactModal
+        isOpen={contactOpen}
+        onClose={() => setContactOpen(false)}
+      />
     </>
   );
 }

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useLocation, useNavigate, Link } from "react-router-dom";
-import { useToast } from "../context/ToastContext";
+import { useToast } from "../contexts/ToastContext";
 import { createBooking } from "../api/bookingsApi";
 
 export default function PaymentPage() {
@@ -10,7 +10,12 @@ export default function PaymentPage() {
   const booking = state?.booking;
 
   const [method, setMethod] = useState("card");
-  const [card, setCard] = useState({ number: "", name: "", expiry: "", cvv: "" });
+  const [card, setCard] = useState({
+    number: "",
+    name: "",
+    expiry: "",
+    cvv: "",
+  });
   const [upiId, setUpiId] = useState("");
   const [status, setStatus] = useState("idle"); // idle | processing | success
   const [bookingRef, setBookingRef] = useState(null);
@@ -23,21 +28,36 @@ export default function PaymentPage() {
         <p style={{ color: "#64748b" }}>
           Pick a destination from the homepage first, then proceed to pay.
         </p>
-        <Link to="/" className="btn-primary" style={{ display: "inline-block", textDecoration: "none", padding: "12px 24px" }}>
+        <Link
+          to="/"
+          className="btn-primary"
+          style={{
+            display: "inline-block",
+            textDecoration: "none",
+            padding: "12px 24px",
+          }}
+        >
           Go to Homepage
         </Link>
       </div>
     );
   }
 
-  // Rough total estimate just for display — real pricing logic can be
-  // wired to the destination's priceFrom/priceTo later.
-  const travellers = (booking.numberOfTravellers?.adults || 1) + (booking.numberOfTravellers?.children || 0);
-  const estimatedTotal = travellers * 9999;
+  // booking.amount already comes from BookingModal's buildPayload().
+  // Fall back to the old per-traveller estimate only if it's ever missing.
+  const travellers =
+    (booking.numberOfTravellers?.adults || 1) +
+    (booking.numberOfTravellers?.children || 0);
+  const estimatedTotal = booking.amount || travellers * 9999;
 
   function validatePayment() {
     if (method === "card") {
-      return card.number.replace(/\s/g, "").length >= 12 && card.name && card.expiry && card.cvv.length >= 3;
+      return (
+        card.number.replace(/\s/g, "").length >= 12 &&
+        card.name &&
+        card.expiry &&
+        card.cvv.length >= 3
+      );
     }
     return upiId.includes("@");
   }
@@ -53,9 +73,19 @@ export default function PaymentPage() {
       // Simulate gateway delay
       await new Promise((res) => setTimeout(res, 1800));
 
-      const data = await createBooking(booking);
+      // Payment "succeeded" at this point (simulated) — tell the backend
+      // to save this booking as paid, not pending.
+      const data = await createBooking({
+        ...booking,
+        amount: estimatedTotal,
+        paymentStatus: "paid",
+        paymentMethod: method,
+      });
+
       if (!data.success) {
-        throw new Error(data.errors?.[0]?.msg || data.message || "Booking failed.");
+        throw new Error(
+          data.errors?.[0]?.msg || data.message || "Booking failed.",
+        );
       }
       setBookingRef(data.bookingReference);
       setStatus("success");
@@ -73,11 +103,29 @@ export default function PaymentPage() {
         <p style={{ color: "#64748b" }}>
           Your trip to <strong>{booking.destination}</strong> is confirmed.
         </p>
-        <p style={{ background: "#f0fdf4", color: "#16a34a", padding: "10px 16px", borderRadius: 8, display: "inline-block", fontWeight: 700 }}>
+        <p
+          style={{
+            background: "#f0fdf4",
+            color: "#16a34a",
+            padding: "10px 16px",
+            borderRadius: 8,
+            display: "inline-block",
+            fontWeight: 700,
+          }}
+        >
           Booking Ref: {bookingRef}
         </p>
         <div style={{ marginTop: 20 }}>
-          <Link to="/my-bookings" className="btn-primary" style={{ display: "inline-block", textDecoration: "none", padding: "12px 24px", marginRight: 10 }}>
+          <Link
+            to="/my-bookings"
+            className="btn-primary"
+            style={{
+              display: "inline-block",
+              textDecoration: "none",
+              padding: "12px 24px",
+              marginRight: 10,
+            }}
+          >
             View My Bookings
           </Link>
           <Link to="/" style={{ color: "#2563eb", textDecoration: "none" }}>
@@ -92,20 +140,39 @@ export default function PaymentPage() {
     <div style={{ maxWidth: 480, margin: "40px auto", padding: "0 16px" }}>
       <h2>Complete Your Payment 💳</h2>
 
-      <div style={{ background: "#f8fafc", borderRadius: 10, padding: 16, marginBottom: 20 }}>
-        <p style={{ margin: "4px 0" }}><strong>Destination:</strong> {booking.destination}</p>
-        <p style={{ margin: "4px 0" }}><strong>Travel Date:</strong> {booking.travelDate}</p>
-        <p style={{ margin: "4px 0" }}><strong>Travellers:</strong> {travellers}</p>
+      <div
+        style={{
+          background: "#f8fafc",
+          borderRadius: 10,
+          padding: 16,
+          marginBottom: 20,
+        }}
+      >
+        <p style={{ margin: "4px 0" }}>
+          <strong>Destination:</strong> {booking.destination}
+        </p>
+        <p style={{ margin: "4px 0" }}>
+          <strong>Travel Date:</strong> {booking.travelDate}
+        </p>
+        <p style={{ margin: "4px 0" }}>
+          <strong>Travellers:</strong> {travellers}
+        </p>
         <p style={{ margin: "4px 0", fontWeight: 700, color: "#103152" }}>
           Estimated Total: ₹{estimatedTotal.toLocaleString("en-IN")}
         </p>
       </div>
 
       <div className="modal-tabs">
-        <button className={`modal-tab ${method === "card" ? "active" : ""}`} onClick={() => setMethod("card")}>
+        <button
+          className={`modal-tab ${method === "card" ? "active" : ""}`}
+          onClick={() => setMethod("card")}
+        >
           Card
         </button>
-        <button className={`modal-tab ${method === "upi" ? "active" : ""}`} onClick={() => setMethod("upi")}>
+        <button
+          className={`modal-tab ${method === "upi" ? "active" : ""}`}
+          onClick={() => setMethod("upi")}
+        >
           UPI
         </button>
       </div>
@@ -165,13 +232,27 @@ export default function PaymentPage() {
           </div>
         )}
 
-        <button className="btn-primary" type="submit" disabled={status === "processing"}>
-          {status === "processing" ? "Processing payment…" : `Pay ₹${estimatedTotal.toLocaleString("en-IN")}`}
+        <button
+          className="btn-primary"
+          type="submit"
+          disabled={status === "processing"}
+        >
+          {status === "processing"
+            ? "Processing payment…"
+            : `Pay ₹${estimatedTotal.toLocaleString("en-IN")}`}
         </button>
       </form>
 
-      <p style={{ fontSize: 12, color: "#94a3b8", textAlign: "center", marginTop: 14 }}>
-        🔒 This is a simulated payment for practice purposes — no real money is charged.
+      <p
+        style={{
+          fontSize: 12,
+          color: "#94a3b8",
+          textAlign: "center",
+          marginTop: 14,
+        }}
+      >
+        🔒 This is a simulated payment for practice purposes — no real money is
+        charged.
       </p>
     </div>
   );

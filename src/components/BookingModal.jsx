@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
 import Modal from "./Modal";
-import { useToast } from "../context/ToastContext";
+import { useToast } from "../contexts/ToastContext";
 import { createBooking } from "../api/bookingsApi";
+
+const PRICE_PER_TRAVELLER = 9999;
 
 const emptyForm = {
   fullName: "",
@@ -16,7 +18,12 @@ const emptyForm = {
   specialRequests: "",
 };
 
-export default function BookingModal({ isOpen, onClose, prefillDestination, onProceedToPay }) {
+export default function BookingModal({
+  isOpen,
+  onClose,
+  prefillDestination,
+  onProceedToPay,
+}) {
   const showToast = useToast();
   const [form, setForm] = useState(emptyForm);
   const [loading, setLoading] = useState(false);
@@ -43,6 +50,10 @@ export default function BookingModal({ isOpen, onClose, prefillDestination, onPr
   }
 
   function buildPayload() {
+    const adults = parseInt(form.adults) || 1;
+    const children = parseInt(form.children) || 0;
+    const travellers = adults + children;
+
     return {
       fullName: form.fullName.trim(),
       email: form.email.trim(),
@@ -51,25 +62,29 @@ export default function BookingModal({ isOpen, onClose, prefillDestination, onPr
       packageType: form.packageType,
       travelDate: form.travelDate,
       returnDate: form.returnDate || undefined,
-      numberOfTravellers: {
-        adults: parseInt(form.adults) || 1,
-        children: parseInt(form.children) || 0,
-      },
+      numberOfTravellers: { adults, children },
       specialRequests: form.specialRequests.trim(),
+      amount: travellers * PRICE_PER_TRAVELLER,
     };
   }
 
   async function handleConfirm() {
-    if (!validate()) return showToast("Please fill in all required fields.", "error");
+    if (!validate())
+      return showToast("Please fill in all required fields.", "error");
 
     setLoading(true);
     try {
+      // No paymentStatus sent here -> backend defaults it to "pending"
       const data = await createBooking(buildPayload());
       if (!data.success) {
-        throw new Error(data.errors?.[0]?.msg || data.message || "Booking failed.");
+        throw new Error(
+          data.errors?.[0]?.msg || data.message || "Booking failed.",
+        );
       }
       onClose();
-      showToast(`Booking confirmed! Ref: ${data.bookingReference} 🎉`);
+      showToast(
+        `Booking saved! Ref: ${data.bookingReference} — payment pending 💳`,
+      );
       setForm(emptyForm);
     } catch (err) {
       showToast(err.message, "error");
@@ -79,7 +94,8 @@ export default function BookingModal({ isOpen, onClose, prefillDestination, onPr
   }
 
   function handleProceedToPay() {
-    if (!validate()) return showToast("Please fill in all required fields.", "error");
+    if (!validate())
+      return showToast("Please fill in all required fields.", "error");
     onProceedToPay(buildPayload());
     setForm(emptyForm);
   }
@@ -130,7 +146,10 @@ export default function BookingModal({ isOpen, onClose, prefillDestination, onPr
       <div className="form-row">
         <div className="form-group">
           <label>Package Type</label>
-          <select value={form.packageType} onChange={(e) => update("packageType", e.target.value)}>
+          <select
+            value={form.packageType}
+            onChange={(e) => update("packageType", e.target.value)}
+          >
             <option value="domestic">Domestic</option>
             <option value="international">International</option>
           </select>
@@ -183,10 +202,19 @@ export default function BookingModal({ isOpen, onClose, prefillDestination, onPr
         />
       </div>
 
-      <button className="btn-primary" onClick={handleProceedToPay} style={{ marginBottom: 10 }}>
+      <button
+        className="btn-primary"
+        onClick={handleProceedToPay}
+        style={{ marginBottom: 10 }}
+      >
         Proceed to Pay
       </button>
-      <button className="btn-primary" onClick={handleConfirm} disabled={loading} style={{ background: "#16a34a" }}>
+      <button
+        className="btn-primary"
+        onClick={handleConfirm}
+        disabled={loading}
+        style={{ background: "#16a34a" }}
+      >
         {loading ? "Please wait…" : "Confirm Booking (Pay Later)"}
       </button>
     </Modal>

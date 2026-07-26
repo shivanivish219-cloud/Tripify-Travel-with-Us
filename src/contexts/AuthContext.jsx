@@ -14,7 +14,7 @@ function readStoredUser() {
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(readStoredUser);
   const [token, setToken] = useState(
-    () => localStorage.getItem("tripify_token") || null
+    () => localStorage.getItem("tripify_token") || null,
   );
 
   const persist = useCallback((nextToken, nextUser) => {
@@ -31,19 +31,21 @@ export function AuthProvider({ children }) {
       persist(data.token, data.user);
       return data.user;
     },
-    [persist]
+    [persist],
   );
 
   const signup = useCallback(
-    async ({ name, email, phone, password }) => {
-      const data = await signupApi({ name, email, phone, password });
+    async ({ name, email, phone, password, role }) => {
+      const data = await signupApi({ name, email, phone, password, role });
       if (!data.success) {
-        throw new Error(data.errors?.[0]?.msg || data.message || "Signup failed.");
+        throw new Error(
+          data.errors?.[0]?.msg || data.message || "Signup failed.",
+        );
       }
       persist(data.token, data.user);
       return data.user;
     },
-    [persist]
+    [persist],
   );
 
   const logout = useCallback(() => {

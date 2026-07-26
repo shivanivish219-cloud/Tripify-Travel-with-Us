@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Modal from "./Modal";
-import { useToast } from "../context/ToastContext";
+import { useToast } from "../contexts/ToastContext";
 import { sendContactMessage } from "../api/contactApi";
 
 const emptyForm = { name: "", email: "", phone: "", subject: "", message: "" };
@@ -22,10 +22,15 @@ export default function ContactModal({ isOpen, onClose }) {
 
     setLoading(true);
     try {
-      const payload = { ...form, subject: form.subject.trim() || "General Inquiry" };
+      const payload = {
+        ...form,
+        subject: form.subject.trim() || "General Inquiry",
+      };
       const data = await sendContactMessage(payload);
       if (!data.success) {
-        throw new Error(data.errors?.[0]?.msg || data.message || "Failed to send.");
+        throw new Error(
+          data.errors?.[0]?.msg || data.message || "Failed to send.",
+        );
       }
       onClose();
       showToast(data.message || "Message sent! 🙏");
