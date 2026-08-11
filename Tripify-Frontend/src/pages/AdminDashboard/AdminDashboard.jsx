@@ -1,12 +1,12 @@
 import { useEffect, useState, useCallback } from "react";
-import DashboardSidebar from "../../components/DashboardSidebar/DashboardSidebar";
-import DashboardNavbar from "../../components/DashboardNavbar";
-import KpiCards from "../../components/KpiCards";
-import RevenueChart from "../../components/RevenueChart";
-import BookingTrends from "../../components/BookingTrends";
-import PopularPackages from "../../components/PopularPackages";
-import RecentBookings from "../../components/RecentBookings";
-import SupportPanel from "../../components/SupportPanel";
+import DashboardSidebar from "./components/DashboardSidebar";
+import DashboardNavbar from "./components/DashboardNavbar";
+import KpiCards from "./components/KpiCards";
+import RevenueChart from "./components/RevenueChart";
+import RecentBookings from "./components/RecentBookings";
+import PopularPackages from "./components/PopularPackages";
+import BookingTrends from "./components/BookingTrends";
+import SupportPanel from "./components/SupportPanel";
 import {
   fetchKpis,
   fetchRevenueTrend,
