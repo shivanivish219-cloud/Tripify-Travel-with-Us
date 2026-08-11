@@ -1,16 +1,13 @@
-# Frontend
-FROM node:18-alpine AS frontend
-WORKDIR /app/frontend
-COPY package*.json ./
-RUN npm install
-COPY . .
-RUN npm run build
+FROM node:18-alpine
 
-# Backend
-FROM node:18-alpine AS backend
-WORKDIR /app/backend
+WORKDIR /app
+
 COPY Tripify-Backend/package*.json ./
+
 RUN npm install
-COPY Tripify-Backend .
+
+COPY Tripify-Backend/ ./
+
 EXPOSE 5000
+
 CMD ["npm", "start"]
