@@ -11,6 +11,7 @@ import PaymentPage from "./pages/PaymentPage";
 import MyBookingsPage from "./pages/MyBookingsPage";
 import DestinationsPage from "./pages/DestinationsPage";
 import AdminDashboard from "./pages/AdminDashboard/AdminDashboard";
+import DestinationDetailsPage from "./pages/DestinationDetailsPage";
 
 export default function App() {
   const navigate = useNavigate();
@@ -76,6 +77,16 @@ export default function App() {
               <MyBookingsPage />
             </ProtectedRoute>
           }
+        />
+        <Route
+          path="/destinations"
+          element={
+            <DestinationsPage onCardClick={(d) => openBookingFor(d.name)} />
+          }
+        />
+        <Route
+          path="/destinations/:slug"
+          element={<DestinationDetailsPage />}
         />
       </Routes>
 
