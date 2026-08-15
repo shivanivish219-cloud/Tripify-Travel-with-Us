@@ -12,8 +12,11 @@ const validateEnvironment = require("./config/envValidator");
 validateEnvironment();
 
 const express = require("express");
-const cors = require("cors");
+const app = express();
 
+app.set("trust proxy", 1);
+
+const cors = require("cors");
 // Database
 const connectDB = require("./config/db");
 
