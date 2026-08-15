@@ -29,8 +29,6 @@ const destinationRoutes = require("./routes/destinationRoutes");
 // Rate limiter
 const { generalLimiter } = require("./middleware/rateLimiter");
 
-const app = express();
-
 // ===============================
 // Database Connection
 // ===============================
