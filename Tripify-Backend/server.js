@@ -43,7 +43,7 @@ connectDB();
 const allowedOrigins = [
   "http://localhost:5173",
   "https://tripifyjourney.netlify.app",
-  "https://6a808189ae98914f9560fd2b--tripifyjourney.netlify.app",
+  "https://6a80f01509c4e9318f343d01--tripifyjourney.netlify.app",
 ];
 
 app.use(
