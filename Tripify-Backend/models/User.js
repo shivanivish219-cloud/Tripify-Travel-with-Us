@@ -31,6 +31,10 @@ const userSchema = new mongoose.Schema(
       enum: ["navigator", "explorer"],
       default: "explorer",
     },
+    refreshToken: {
+      type: String,
+      default: null,
+    },
   },
   { timestamps: true },
 );

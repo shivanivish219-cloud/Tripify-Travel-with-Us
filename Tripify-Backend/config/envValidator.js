@@ -1,4 +1,4 @@
-const requiredEnvVars = ["PORT", "MONGO_URI", "JWT_SECRET", "CLIENT_URL"];
+const requiredEnvVars = ["PORT", "MONGO_URI", "JWT_SECRET", "JWT_REFRESH_SECRET", "CLIENT_URL"];
 
 function validateEnvironment() {
   const missing = [];

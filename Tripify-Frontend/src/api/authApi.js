@@ -6,5 +6,11 @@ export const signup = (payload) =>
 export const login = (payload) =>
   axiosClient.post("/auth/login", payload).then((res) => res.data);
 
+export const refreshTokenApi = (payload) =>
+  axiosClient.post("/auth/refresh", payload).then((res) => res.data);
+
+export const logoutApi = (payload) =>
+  axiosClient.post("/auth/logout", payload).then((res) => res.data);
+
 export const fetchMe = () =>
   axiosClient.get("/auth/me").then((res) => res.data);

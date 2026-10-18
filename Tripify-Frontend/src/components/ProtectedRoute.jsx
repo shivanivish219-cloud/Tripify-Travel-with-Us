@@ -1,14 +1,19 @@
 import { Navigate, useLocation } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
-import { ToastProvider } from "../contexts/ToastContext"; // Wrap any route's element with this to require login.
-// Usage: <Route path="/my-bookings" element={<ProtectedRoute><MyBookingsPage /></ProtectedRoute>} />
+
 export default function ProtectedRoute({ children }) {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, loading } = useAuth();
   const location = useLocation();
 
+  if (loading) {
+    return (
+      <div style={{ textAlign: "center", padding: "80px 20px", color: "#64748b" }}>
+        Loading session...
+      </div>
+    );
+  }
+
   if (!isAuthenticated) {
-    // Send them home, remembering where they tried to go (App.jsx can use
-    // this later to auto-open the auth modal if desired).
     return (
       <Navigate
         to="/"

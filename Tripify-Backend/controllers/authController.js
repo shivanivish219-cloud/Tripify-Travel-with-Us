@@ -2,11 +2,19 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 
 const JWT_SECRET = process.env.JWT_SECRET;
-const JWT_EXPIRES_IN = "7d";
+const JWT_REFRESH_SECRET = process.env.JWT_REFRESH_SECRET || process.env.JWT_SECRET;
+const ACCESS_TOKEN_EXPIRES_IN = "15m";
+const REFRESH_TOKEN_EXPIRES_IN = "7d";
 
-function signToken(user) {
+function signAccessToken(user) {
   return jwt.sign({ id: user._id, role: user.role }, JWT_SECRET, {
-    expiresIn: JWT_EXPIRES_IN,
+    expiresIn: ACCESS_TOKEN_EXPIRES_IN,
+  });
+}
+
+function signRefreshToken(user) {
+  return jwt.sign({ id: user._id, role: user.role }, JWT_REFRESH_SECRET, {
+    expiresIn: REFRESH_TOKEN_EXPIRES_IN,
   });
 }
 
@@ -40,11 +48,18 @@ exports.signup = async (req, res) => {
       password,
       role: safeRole,
     });
-    const token = signToken(user);
+
+    const accessToken = signAccessToken(user);
+    const refreshToken = signRefreshToken(user);
+
+    user.refreshToken = refreshToken;
+    await user.save();
 
     res.status(201).json({
       success: true,
-      token,
+      accessToken,
+      refreshToken,
+      token: accessToken, // for backwards compatibility
       user: user.toSafeObject(),
     });
   } catch (err) {
@@ -81,11 +96,17 @@ exports.login = async (req, res) => {
         .json({ success: false, message: "Invalid email or password." });
     }
 
-    const token = signToken(user);
+    const accessToken = signAccessToken(user);
+    const refreshToken = signRefreshToken(user);
+
+    user.refreshToken = refreshToken;
+    await user.save();
 
     res.json({
       success: true,
-      token,
+      accessToken,
+      refreshToken,
+      token: accessToken, // for backwards compatibility
       user: user.toSafeObject(),
     });
   } catch (err) {
@@ -93,6 +114,75 @@ exports.login = async (req, res) => {
     res
       .status(500)
       .json({ success: false, message: "Login failed. Please try again." });
+  }
+};
+
+// POST /api/auth/refresh
+exports.refreshToken = async (req, res) => {
+  try {
+    const { refreshToken } = req.body;
+
+    if (!refreshToken) {
+      return res.status(401).json({
+        success: false,
+        message: "Refresh token is required.",
+      });
+    }
+
+    let decoded;
+    try {
+      decoded = jwt.verify(refreshToken, JWT_REFRESH_SECRET);
+    } catch (err) {
+      return res.status(403).json({
+        success: false,
+        message: "Invalid or expired refresh token. Please log in again.",
+      });
+    }
+
+    const user = await User.findById(decoded.id);
+    if (!user || user.refreshToken !== refreshToken) {
+      return res.status(403).json({
+        success: false,
+        message: "Refresh token is invalid or has been revoked.",
+      });
+    }
+
+    const newAccessToken = signAccessToken(user);
+
+    return res.json({
+      success: true,
+      accessToken: newAccessToken,
+      token: newAccessToken,
+    });
+  } catch (err) {
+    console.error("refreshToken error:", err);
+    res
+      .status(500)
+      .json({ success: false, message: "Could not refresh token." });
+  }
+};
+
+// POST /api/auth/logout
+exports.logout = async (req, res) => {
+  try {
+    const { refreshToken } = req.body;
+
+    if (refreshToken) {
+      await User.findOneAndUpdate(
+        { refreshToken },
+        { refreshToken: null }
+      );
+    }
+
+    res.json({
+      success: true,
+      message: "Logged out successfully.",
+    });
+  } catch (err) {
+    console.error("logout error:", err);
+    res
+      .status(500)
+      .json({ success: false, message: "Logout failed." });
   }
 };
 
