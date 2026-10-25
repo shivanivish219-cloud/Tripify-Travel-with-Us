@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, useMemo } from "react";
+import { useNavigate } from "react-router-dom";
 import Fuse from "fuse.js";
 import { searchPlacesApi } from "../api/searchApi";
 
@@ -94,6 +95,7 @@ const categoryBadgeStyles = {
 };
 
 export default function SearchBox({ onSelectDestination, placeholder = "Search destinations (e.g. maanale, simla, snowfall wali jagah...)" }) {
+  const navigate = useNavigate();
   const [query, setQuery] = useState("");
   const [results, setResults] = useState([]);
   const [related, setRelated] = useState([]);
@@ -171,7 +173,7 @@ export default function SearchBox({ onSelectDestination, placeholder = "Search d
       }
 
       setIsOpen(true);
-      setLoading(false);
+      setLoading(false); 
     }, 300);
 
     return () => clearTimeout(debounceTimerRef.current);
@@ -189,10 +191,12 @@ export default function SearchBox({ onSelectDestination, placeholder = "Search d
   }, []);
 
   const handleSelect = (place) => {
-    const englishName = place.translations?.en?.name || place.name;
-    setQuery(englishName);
+    const slug = place.slug || (place.translations?.en?.name || place.name).toLowerCase();
+    navigate(`/destinations/${slug}`);
+    setQuery("");
+    setResults([]);
     setIsOpen(false);
-    onSelectDestination?.(englishName, place);
+    onSelectDestination?.(slug, place);
   };
 
   const handleAcceptSuggestion = (suggestedName) => {

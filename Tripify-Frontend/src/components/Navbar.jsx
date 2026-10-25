@@ -4,7 +4,7 @@ import { useAuth } from "../contexts/AuthContext";
 import { fetchDestinations } from "../api/destinationsApi";
 import { fallbackDestinations } from "../assets/fallbackDestinations";
 
-export default function Navbar({ onOpenAuth, onSelectDestination }) {
+export default function Navbar({ onOpenAuth }) {
   const { user, isAuthenticated, logout } = useAuth();
   const navigate = useNavigate();
 
@@ -50,12 +50,13 @@ export default function Navbar({ onOpenAuth, onSelectDestination }) {
   }, []);
 
   const handleSelect = useCallback(
-    (name) => {
-      setQuery(name);
+    (destination) => {
+      navigate(`/destinations/${destination.slug}`);
+      setQuery("");
+      setResults([]);
       setShowResults(false);
-      onSelectDestination?.(name);
     },
-    [onSelectDestination],
+    [navigate],
   );
 
   return (
@@ -121,7 +122,7 @@ export default function Navbar({ onOpenAuth, onSelectDestination }) {
                 <div
                   key={d.slug || d.name}
                   className="search-result-item"
-                  onClick={() => handleSelect(d.name)}
+                  onClick={() => handleSelect(d)}
                 >
                   <div>
                     <div className="dest-name">{d.name}</div>
