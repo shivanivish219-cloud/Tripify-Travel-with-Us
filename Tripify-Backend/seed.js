@@ -26,6 +26,9 @@ const destinations = [
     duration: "5N/6D",
     priceFrom: 15999,
     isPopular: true,
+    hindiName: "गोवा",
+    keywords: ["goa", "gova", "goaa", "गोवा", "goa beach", "north goa", "south goa", "samundar"],
+    tags: ["beach", "nightlife", "party", "adventure", "honeymoon"],
   },
 
   {
@@ -40,6 +43,9 @@ const destinations = [
     duration: "5N/6D",
     priceFrom: 13499,
     isPopular: true,
+    hindiName: "मनाली",
+    keywords: ["manali", "maanale", "manalee", "मनाली", "manali hill station", "solang valley", "rohtang", "snowfall wali jagah"],
+    tags: ["adventure", "hill", "snowfall", "honeymoon", "family"],
   },
 
   {
@@ -54,6 +60,9 @@ const destinations = [
     duration: "4N/5D",
     priceFrom: 9999,
     isPopular: true,
+    hindiName: "जयपुर",
+    keywords: ["jaipur", "jaypur", "jaipoor", "जयपुर", "pink city", "hawa mahal", "amer fort", "gulabi nagar"],
+    tags: ["heritage", "culture", "palace", "fort", "family"],
   },
 
   {
@@ -68,6 +77,9 @@ const destinations = [
     duration: "6N/7D",
     priceFrom: 14999,
     isPopular: true,
+    hindiName: "कश्मीर",
+    keywords: ["kashmir", "casmir", "kashmeer", "कश्मीर", "srinagar", "dal lake", "gulmarg", "jannat"],
+    tags: ["hill", "snowfall", "nature", "honeymoon", "valley"],
   },
 
   {
@@ -82,6 +94,9 @@ const destinations = [
     duration: "6N/7D",
     priceFrom: 18999,
     isPopular: true,
+    hindiName: "लद्दाख",
+    keywords: ["ladakh", "laddakh", "ladak", "लद्दाख", "leh", "leh ladakh", "pangong lake", "bike trip"],
+    tags: ["adventure", "roadtrip", "mountains", "biking", "valley"],
   },
 
   {
@@ -96,6 +111,9 @@ const destinations = [
     duration: "3N/4D",
     priceFrom: 7999,
     isPopular: true,
+    hindiName: "ऋषिकेश",
+    keywords: ["rishikesh", "risikesh", "hrishikesh", "ऋषिकेश", "rafting", "river rafting", "yoga", "ganga"],
+    tags: ["adventure", "rafting", "spiritual", "yoga", "camping"],
   },
 
   {
@@ -110,6 +128,9 @@ const destinations = [
     duration: "3N/4D",
     priceFrom: 8999,
     isPopular: true,
+    hindiName: "उदयपुर",
+    keywords: ["udaipur", "udaypur", "udaipoor", "उदयपुर", "city of lakes", "lake pichola", "city palace"],
+    tags: ["heritage", "lakes", "royal", "honeymoon", "palace"],
   },
 
   {
@@ -124,6 +145,9 @@ const destinations = [
     duration: "2N/3D",
     priceFrom: 6999,
     isPopular: true,
+    hindiName: "आगरा",
+    keywords: ["agra", "aagra", "agrah", "आगरा", "taj mahal", "agra fort", "tajmahal"],
+    tags: ["heritage", "monument", "seven wonders", "historic", "family"],
   },
 
   {
@@ -138,6 +162,9 @@ const destinations = [
     duration: "6N/7D",
     priceFrom: 16999,
     isPopular: true,
+    hindiName: "केरल",
+    keywords: ["kerala", "kerla", "kairala", "केरल", "gods own country", "alleppey", "munnar", "backwaters"],
+    tags: ["nature", "backwaters", "beach", "honeymoon", "ayurveda"],
   },
 
   {
@@ -152,6 +179,9 @@ const destinations = [
     duration: "5N/6D",
     priceFrom: 21999,
     isPopular: true,
+    hindiName: "अंडमान",
+    keywords: ["andaman", "andman", "andaman nicobar", "अंडमान", "havelock", "radhanagar", "port blair"],
+    tags: ["beach", "island", "scuba", "honeymoon", "water sports"],
   },
 
   {
@@ -166,6 +196,9 @@ const destinations = [
     duration: "3N/4D",
     priceFrom: 8999,
     isPopular: false,
+    hindiName: "ऊटी",
+    keywords: ["ooty", "ootee", "uti", "ऊटी", "queen of hill stations", "nilgiri", "toy train"],
+    tags: ["hill", "tea gardens", "nature", "family", "honeymoon"],
   },
 
   {
@@ -180,6 +213,9 @@ const destinations = [
     duration: "4N/5D",
     priceFrom: 9999,
     isPopular: true,
+    hindiName: "दार्जिलिंग",
+    keywords: ["darjeeling", "darjiling", "darjeling", "दार्जिलिंग", "tiger hill", "toy train", "kanchendzonga"],
+    tags: ["hill", "tea gardens", "mountains", "snow", "family"],
   },
 
   {
@@ -194,6 +230,9 @@ const destinations = [
     duration: "4N/5D",
     priceFrom: 10999,
     isPopular: true,
+    hindiName: "शिमला",
+    keywords: ["shimla", "simla", "sheemla", "शिमला", "mall road", "kufri", "queen of hills", "snowfall"],
+    tags: ["hill", "snowfall", "colonial", "family", "honeymoon"],
   },
 
   {
@@ -208,6 +247,9 @@ const destinations = [
     duration: "3N/4D",
     priceFrom: 8999,
     isPopular: false,
+    hindiName: "मसूरी",
+    keywords: ["mussoorie", "masuri", "mussorie", "मसूरी", "kempty falls", "queen of hills", "dehradun"],
+    tags: ["hill", "waterfalls", "nature", "weekend", "family"],
   },
 
   {
@@ -222,6 +264,9 @@ const destinations = [
     duration: "2N/3D",
     priceFrom: 6999,
     isPopular: true,
+    hindiName: "वाराणसी",
+    keywords: ["varanasi", "banaras", "kashi", "वाराणसी", "बनारस", "काशी", "ganga aarti", "ghats", "kashi vishwanath"],
+    tags: ["heritage", "spiritual", "temples", "ghats", "culture"],
   },
 
   {
@@ -236,6 +281,9 @@ const destinations = [
     duration: "2N/3D",
     priceFrom: 6499,
     isPopular: false,
+    hindiName: "अमृतसर",
+    keywords: ["amritsar", "amritser", "ambarsar", "अमृतसर", "golden temple", "wagah border", "harmandir sahib"],
+    tags: ["heritage", "spiritual", "culture", "food", "family"],
   },
 
   {
@@ -250,6 +298,9 @@ const destinations = [
     duration: "5N/6D",
     priceFrom: 13999,
     isPopular: true,
+    hindiName: "मेघालय",
+    keywords: ["meghalaya", "megalaya", "shillong", "मेघालय", "cherrapunji", "living root bridges", "dawki"],
+    tags: ["adventure", "waterfalls", "nature", "caves", "rain"],
   },
 
   {
@@ -264,6 +315,9 @@ const destinations = [
     duration: "3N/4D",
     priceFrom: 8999,
     isPopular: false,
+    hindiName: "कूर्ग",
+    keywords: ["coorg", "kurg", "kodagu", "कूर्ग", "scotland of india", "coffee plantations", "madikeri"],
+    tags: ["hill", "coffee", "nature", "waterfalls", "honeymoon"],
   },
 
   {
@@ -278,6 +332,9 @@ const destinations = [
     duration: "2N/3D",
     priceFrom: 4999,
     isPopular: false,
+    hindiName: "पचमढ़ी",
+    keywords: ["pachmarhi", "panchmarhi", "pachmarhi hill station", "पचमढ़ी", "queen of satpura", "bee falls", "satpura"],
+    tags: ["hill", "waterfalls", "caves", "nature", "peaceful"],
   },
 
   // =========================
@@ -296,6 +353,9 @@ const destinations = [
     duration: "5N/6D",
     priceFrom: 29999,
     isPopular: true,
+    hindiName: "बाली",
+    keywords: ["bali", "balee", "baali", "बाली", "ubud", "kuta", "indonesia", "bali island"],
+    tags: ["beach", "tropical", "temples", "honeymoon", "island"],
   },
 
   {
@@ -310,6 +370,9 @@ const destinations = [
     duration: "4N/5D",
     priceFrom: 34999,
     isPopular: true,
+    hindiName: "दुबई",
+    keywords: ["dubai", "doobai", "dubye", "दुबई", "burj khalifa", "desert safari", "uae", "dubai mall"],
+    tags: ["adventure", "luxury", "shopping", "desert", "family"],
   },
 
   {
@@ -324,6 +387,9 @@ const destinations = [
     duration: "5N/6D",
     priceFrom: 39999,
     isPopular: true,
+    hindiName: "मालदीव",
+    keywords: ["maldives", "maldive", "maldiev", "मालदीव", "water villas", "resorts", "male"],
+    tags: ["beach", "luxury", "honeymoon", "coral", "island"],
   },
 
   {
@@ -338,6 +404,9 @@ const destinations = [
     duration: "5N/6D",
     priceFrom: 29999,
     isPopular: true,
+    hindiName: "बैंकॉक",
+    keywords: ["bangkok", "bangkock", "bankok", "बैंकॉक", "thailand", "grand palace", "street food", "siam"],
+    tags: ["heritage", "shopping", "nightlife", "temples", "culture"],
   },
 
   {
@@ -352,6 +421,9 @@ const destinations = [
     duration: "4N/5D",
     priceFrom: 39999,
     isPopular: true,
+    hindiName: "सिंगापुर",
+    keywords: ["singapore", "singapur", "singpore", "सिंगापुर", "sentosa", "marina bay", "universal studios"],
+    tags: ["adventure", "city", "family", "modern", "gardens"],
   },
 
   {
@@ -366,6 +438,9 @@ const destinations = [
     duration: "5N/6D",
     priceFrom: 32999,
     isPopular: true,
+    hindiName: "फुकेत",
+    keywords: ["phuket", "puket", "fuket", "फुकेत", "phi phi island", "thailand beach", "patong"],
+    tags: ["beach", "island", "nightlife", "water sports", "honeymoon"],
   },
 
   {
@@ -380,6 +455,9 @@ const destinations = [
     duration: "5N/6D",
     priceFrom: 49999,
     isPopular: true,
+    hindiName: "इस्तांबुल",
+    keywords: ["istanbul", "istanbool", "istanbal", "इस्तांबुल", "turkey", "hagia sophia", "bosphorus", "blue mosque"],
+    tags: ["heritage", "historic", "architecture", "bazaars", "culture"],
   },
 
   {
@@ -394,6 +472,9 @@ const destinations = [
     duration: "6N/7D",
     priceFrom: 79999,
     isPopular: true,
+    hindiName: "लंदन",
+    keywords: ["london", "landan", "londun", "लंदन", "uk", "big ben", "london eye", "tower bridge"],
+    tags: ["heritage", "museums", "historic", "city", "landmarks"],
   },
 
   {
@@ -408,6 +489,9 @@ const destinations = [
     duration: "5N/6D",
     priceFrom: 69999,
     isPopular: true,
+    hindiName: "पेरिस",
+    keywords: ["paris", "pariss", "paaris", "पेरिस", "france", "eiffel tower", "louvre", "notre dame"],
+    tags: ["heritage", "romantic", "honeymoon", "art", "fashion"],
   },
 
   {
@@ -422,6 +506,9 @@ const destinations = [
     duration: "5N/6D",
     priceFrom: 74999,
     isPopular: true,
+    hindiName: "रोम",
+    keywords: ["rome", "room", "rom", "रोम", "italy", "colosseum", "vatican", "trevi fountain"],
+    tags: ["heritage", "ancient", "historic", "architecture", "monuments"],
   },
 
   {
@@ -436,6 +523,9 @@ const destinations = [
     duration: "7N/8D",
     priceFrom: 99999,
     isPopular: true,
+    hindiName: "स्विट्जरलैंड",
+    keywords: ["switzerland", "swis", "swizerland", "swiss", "स्विट्जरलैंड", "alps", "zurich", "interlaken", "jungfrau"],
+    tags: ["hill", "snowfall", "alps", "honeymoon", "luxury"],
   },
 
   {
@@ -450,6 +540,9 @@ const destinations = [
     duration: "5N/6D",
     priceFrom: 49999,
     isPopular: true,
+    hindiName: "मॉरीशस",
+    keywords: ["mauritius", "maritius", "morishas", "मॉरीशस", "mauritius beaches", "island resort", "port louis"],
+    tags: ["beach", "honeymoon", "coral", "luxury", "island"],
   },
 
   {
@@ -464,6 +557,9 @@ const destinations = [
     duration: "4N/5D",
     priceFrom: 39999,
     isPopular: false,
+    hindiName: "अबू धाबी",
+    keywords: ["abu dhabi", "abudhabi", "abu dabi", "अबू धाबी", "grand mosque", "ferrari world", "uae capital"],
+    tags: ["heritage", "luxury", "architecture", "desert", "modern"],
   },
 
   {
@@ -478,6 +574,9 @@ const destinations = [
     duration: "5N/6D",
     priceFrom: 29999,
     isPopular: true,
+    hindiName: "मलेशिया",
+    keywords: ["malaysia", "malesia", "malasiya", "मलेशिया", "kuala lumpur", "genting", "petronas towers", "langkawi"],
+    tags: ["adventure", "nature", "islands", "shopping", "family"],
   },
 
   {
@@ -492,6 +591,9 @@ const destinations = [
     duration: "5N/6D",
     priceFrom: 27999,
     isPopular: true,
+    hindiName: "श्रीलंका",
+    keywords: ["sri lanka", "srilanka", "shri lanka", "श्रीलंका", "colombo", "kandy", "sigiriya", "bentota"],
+    tags: ["adventure", "beaches", "tea plantations", "wildlife", "nature"],
   },
 
   {
@@ -506,6 +608,9 @@ const destinations = [
     duration: "6N/7D",
     priceFrom: 34999,
     isPopular: true,
+    hindiName: "वियतनाम",
+    keywords: ["vietnam", "veitnam", "viet nam", "वियतनाम", "ha long bay", "hanoi", "da nang", "ho chi minh"],
+    tags: ["adventure", "landscapes", "culture", "street food", "nature"],
   },
 
   {
@@ -520,6 +625,9 @@ const destinations = [
     duration: "6N/7D",
     priceFrom: 89999,
     isPopular: true,
+    hindiName: "टोक्यो",
+    keywords: ["tokyo", "tokiyo", "tokio", "टोक्यो", "japan", "shibuya", "mount fuji", "shinjuku"],
+    tags: ["heritage", "technology", "culture", "temples", "modern"],
   },
 
   {
@@ -534,6 +642,9 @@ const destinations = [
     duration: "6N/7D",
     priceFrom: 109999,
     isPopular: true,
+    hindiName: "न्यू यॉर्क",
+    keywords: ["new york", "newyork", "ny", "nyc", "न्यू यॉर्क", "times square", "manhattan", "statue of liberty"],
+    tags: ["adventure", "city", "skyscrapers", "shopping", "entertainment"],
   },
 
   {
@@ -548,6 +659,9 @@ const destinations = [
     duration: "4N/5D",
     priceFrom: 54999,
     isPopular: false,
+    hindiName: "कप्पाडोसिया",
+    keywords: ["cappadocia", "capadocia", "kapadokya", "कप्पाडोसिया", "hot air balloon", "turkey valleys", "goreme"],
+    tags: ["adventure", "hot air balloon", "valleys", "unique", "romantic"],
   },
 ];
 

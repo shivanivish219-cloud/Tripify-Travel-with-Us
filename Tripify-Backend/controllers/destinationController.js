@@ -7,7 +7,7 @@ const Destination = require("../models/Destination");
 // ?type=international
 // ?category=beach
 // ?popular=true
-// ?q=goa
+// ?q=maanale (searches name, hindiName, keywords, tags)
 // ==========================================
 
 const getDestinations = async (req, res) => {
@@ -31,12 +31,15 @@ const getDestinations = async (req, res) => {
       filter.isPopular = true;
     }
 
-    // Search by destination name
-    if (q) {
-      filter.name = {
-        $regex: q,
-        $options: "i",
-      };
+    // Search by name, hindiName, keywords array, or tags array
+    if (q && q.trim()) {
+      const regex = { $regex: q.trim(), $options: "i" };
+      filter.$or = [
+        { name: regex },
+        { hindiName: regex },
+        { keywords: regex },
+        { tags: regex },
+      ];
     }
 
     const destinations = await Destination.find(filter).sort({
