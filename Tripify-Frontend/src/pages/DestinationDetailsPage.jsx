@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { fetchDestinationBySlug } from "../api/destinationsApi";
+import BookingModal from "../components/BookingModal";
 import "./DestinationDetailsPage.css";
 
 export default function DestinationDetailsPage() {
@@ -10,6 +11,7 @@ export default function DestinationDetailsPage() {
   const [destination, setDestination] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [showBooking, setShowBooking] = useState(false);
 
   useEffect(() => {
     const loadDestination = async () => {
@@ -126,7 +128,7 @@ export default function DestinationDetailsPage() {
 
           <button
             className="destination-book-button"
-            onClick={() => navigate("/")}
+            onClick={() => setShowBooking(true)}
           >
             Plan Your Trip
           </button>
@@ -139,6 +141,20 @@ export default function DestinationDetailsPage() {
           </button>
         </aside>
       </section>
+
+      {/* Booking Modal on same Detail Page */}
+      {showBooking && (
+        <BookingModal
+          isOpen={showBooking}
+          destination={destination}
+          prefillDestination={destination.name}
+          onClose={() => setShowBooking(false)}
+          onProceedToPay={(payload) => {
+            setShowBooking(false);
+            navigate("/payment", { state: { booking: payload } });
+          }}
+        />
+      )}
     </main>
   );
 }

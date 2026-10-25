@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import Modal from "./Modal";
 import { useToast } from "../contexts/ToastContext";
 import { createBooking } from "../api/bookingsApi";
@@ -19,21 +20,28 @@ const emptyForm = {
 };
 
 export default function BookingModal({
-  isOpen,
+  isOpen = true,
   onClose,
   prefillDestination,
+  destination,
   onProceedToPay,
 }) {
   const showToast = useToast();
+  const navigate = useNavigate();
   const [form, setForm] = useState(emptyForm);
   const [loading, setLoading] = useState(false);
 
-  // Pre-fill destination when opened from a card click or search select
+  // Pre-fill destination when opened from a card click, search select, or detail page
+  const targetDestination =
+    typeof destination === "string"
+      ? destination
+      : destination?.name || prefillDestination;
+
   useEffect(() => {
-    if (isOpen && prefillDestination) {
-      setForm((f) => ({ ...f, destination: prefillDestination }));
+    if (isOpen && targetDestination) {
+      setForm((f) => ({ ...f, destination: targetDestination }));
     }
-  }, [isOpen, prefillDestination]);
+  }, [isOpen, targetDestination]);
 
   function update(field, value) {
     setForm((f) => ({ ...f, [field]: value }));
@@ -96,8 +104,16 @@ export default function BookingModal({
   function handleProceedToPay() {
     if (!validate())
       return showToast("Please fill in all required fields.", "error");
-    onProceedToPay(buildPayload());
+
+    const payload = buildPayload();
     setForm(emptyForm);
+
+    if (typeof onProceedToPay === "function") {
+      onProceedToPay(payload);
+    } else {
+      onClose?.();
+      navigate("/payment", { state: { booking: payload } });
+    }
   }
 
   return (
