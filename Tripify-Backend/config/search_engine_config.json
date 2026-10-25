@@ -1,0 +1,168 @@
+{
+  "elasticsearch_configuration": {
+    "index_name": "tripify_places",
+    "settings": {
+      "index": {
+        "number_of_shards": 1,
+        "number_of_replicas": 1,
+        "max_ngram_diff": 13
+      },
+      "analysis": {
+        "filter": {
+          "tripify_phonetic_metaphone": {
+            "type": "phonetic",
+            "encoder": "double_metaphone",
+            "replace": false
+          },
+          "tripify_edge_ngram": {
+            "type": "edge_ngram",
+            "min_gram": 2,
+            "max_gram": 15
+          },
+          "tripify_asciifolding": {
+            "type": "asciifolding",
+            "preserve_original": true
+          }
+        },
+        "analyzer": {
+          "tripify_index_analyzer": {
+            "type": "custom",
+            "tokenizer": "standard",
+            "filter": [
+              "lowercase",
+              "tripify_asciifolding",
+              "tripify_phonetic_metaphone",
+              "tripify_edge_ngram"
+            ]
+          },
+          "tripify_search_analyzer": {
+            "type": "custom",
+            "tokenizer": "standard",
+            "filter": [
+              "lowercase",
+              "tripify_asciifolding",
+              "tripify_phonetic_metaphone"
+            ]
+          }
+        }
+      }
+    },
+    "mappings": {
+      "properties": {
+        "id": { "type": "keyword" },
+        "state": { "type": "keyword" },
+        "category": { "type": "keyword" },
+        "rating": { "type": "float" },
+        "image": { "type": "keyword", "index": false },
+        "is_active": { "type": "boolean" },
+        "tags": {
+          "type": "keyword"
+        },
+        "translations": {
+          "type": "nested",
+          "properties": {
+            "lang": { "type": "keyword" },
+            "name": {
+              "type": "text",
+              "analyzer": "tripify_index_analyzer",
+              "search_analyzer": "tripify_search_analyzer",
+              "fields": {
+                "keyword": { "type": "keyword" }
+              }
+            },
+            "description": {
+              "type": "text",
+              "analyzer": "tripify_index_analyzer",
+              "search_analyzer": "tripify_search_analyzer"
+            },
+            "keywords": {
+              "type": "text",
+              "analyzer": "tripify_index_analyzer",
+              "search_analyzer": "tripify_search_analyzer",
+              "fields": {
+                "keyword": { "type": "keyword" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "sample_search_query": {
+      "query": {
+        "bool": {
+          "must": [
+            {
+              "nested": {
+                "path": "translations",
+                "query": {
+                  "multi_match": {
+                    "query": "maanale",
+                    "fields": [
+                      "translations.name^3",
+                      "translations.keywords^4",
+                      "translations.description"
+                    ],
+                    "fuzziness": "AUTO:2,5",
+                    "prefix_length": 2,
+                    "max_expansions": 50
+                  }
+                }
+              }
+            }
+          ],
+          "filter": [
+            { "term": { "is_active": true } },
+            { "term": { "category": "hill_station" } }
+          ]
+        }
+      },
+      "suggest": {
+        "place_suggestion": {
+          "text": "maanale",
+          "term": {
+            "field": "translations.name",
+            "suggest_mode": "popular",
+            "min_word_length": 3,
+            "prefix_length": 1,
+            "max_edits": 2
+          }
+        }
+      }
+    }
+  },
+  "typesense_collection_schema": {
+    "name": "tripify_places",
+    "fields": [
+      { "name": "id", "type": "string" },
+      { "name": "name_en", "type": "string", "facet": false },
+      { "name": "name_hi", "type": "string", "facet": false },
+      { "name": "name_hi_latn", "type": "string", "facet": false },
+      { "name": "category", "type": "string", "facet": true },
+      { "name": "state", "type": "string", "facet": true },
+      { "name": "rating", "type": "float", "facet": true },
+      { "name": "tags", "type": "string[]", "facet": true },
+      { "name": "keywords", "type": "string[]", "facet": false },
+      { "name": "description", "type": "string", "facet": false },
+      { "name": "is_active", "type": "bool", "facet": true }
+    ],
+    "default_sorting_field": "rating",
+    "typo_tolerance": {
+      "enabled": true,
+      "num_typos": 2,
+      "min_len_1typo": 3,
+      "min_len_2typos": 6,
+      "typo_tokens_threshold": 1,
+      "drop_tokens_threshold": 1
+    },
+    "sample_typesense_query": {
+      "q": "maanale",
+      "query_by": "name_en,name_hi,name_hi_latn,keywords,tags,category",
+      "query_by_weights": "4,3,3,5,2,2",
+      "filter_by": "is_active:=true && category:=hill_station",
+      "sort_by": "rating:desc",
+      "num_typos": 2,
+      "prefix": true
+    }
+  }
+}
+

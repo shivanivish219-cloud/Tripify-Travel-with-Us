@@ -25,6 +25,7 @@ const authRoutes = require("./routes/authRoutes");
 const bookingRoutes = require("./routes/bookingRoutes");
 const adminAnalyticsRoutes = require("./routes/adminAnalytics");
 const destinationRoutes = require("./routes/destinationRoutes");
+const searchRoutes = require("./routes/searchRoutes");
 
 // Rate limiter
 const { generalLimiter } = require("./middleware/rateLimiter");
@@ -86,6 +87,8 @@ app.use("/api/bookings", bookingRoutes);
 app.use("/api/admin", adminAnalyticsRoutes);
 
 app.use("/api/destinations", destinationRoutes);
+
+app.use("/api/search", searchRoutes);
 
 // ===============================
 // Start Server
